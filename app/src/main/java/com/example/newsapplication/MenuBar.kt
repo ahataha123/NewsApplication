@@ -37,7 +37,7 @@ fun TopBar(navController: NavController) {
                     DropdownMenuItem(onClick = { menuExpanded = true; navController.navigate(Screens.FavouriteScreen.route)}) {
                         Icon(Icons.Filled.Favorite,contentDescription = null)
                         Spacer(modifier = Modifier.width(15.dp))
-                        Text(text = "Favorites")
+                        Text(text = "Favorite")
                     }
                 }
             }
