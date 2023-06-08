@@ -17,17 +17,16 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
         var newsList = mutableStateOf<List<Article>>(listOf())
-        var errorMessage = mutableStateOf("")
+        private var errorMessage = mutableStateOf("")
         var isLoading = mutableStateOf(false)
 
     init {
         loadNews()
     }
-    fun loadNews(){
+    private fun loadNews(){
         viewModelScope.launch {
             isLoading.value = true
-            val result = repository.getNewsList()
-            when(result){
+            when(val result = repository.getNewsList()){
                 is Resource.Success -> {
 
                     val news = result.data!!.body().apply {

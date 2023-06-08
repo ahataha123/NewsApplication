@@ -6,5 +6,4 @@ import dagger.hilt.android.HiltAndroidApp
 
 //if you use hilt, you have to add this
 @HiltAndroidApp
-class NewsApp : Application(){
-}
+class NewsApp : Application()

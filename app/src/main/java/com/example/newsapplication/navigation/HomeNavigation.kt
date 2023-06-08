@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import com.example.newsapplication.AppNameText
 import com.example.newsapplication.screens.NewsList
 import com.example.newsapplication.screens.NewsSearchScreen
-import com.example.newsapplication.screens.detailView
+import com.example.newsapplication.screens.DetailView
 import com.example.newsapplication.screens.savedNewsView
 
 @Composable
@@ -63,7 +63,7 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
                 it.arguments?.getString("title")
             }
             println(title)
-            detailView(
+            DetailView(
 
                 content = title ?:"",
             )
@@ -74,4 +74,7 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
 }
 
 
+sealed class HomeScreen(val route: String){
+    object Home : HomeScreen(route = "HOME")
 
+}

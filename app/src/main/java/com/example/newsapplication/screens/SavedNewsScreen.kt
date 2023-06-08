@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.newsapplication.model.RoomModel
 import com.example.newsapplication.ui.theme.customWhite
@@ -43,7 +44,7 @@ fun savedNewsView(navController: NavController, viewModel: SavedNewsViewModel = 
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
              ) {
-             Text(text = "You didn't save any news. Save one now if you want ️ ",
+             Text(text = "No Saved Articles",
 
              fontSize = 13.sp,
              textAlign = TextAlign.Center)
@@ -108,7 +109,8 @@ fun SavedNewsRow(navController: NavController, article : RoomModel){
                 navController.navigate("details_graph/${article.title}")
             }
     ) {
-        Image(painter = rememberImagePainter(data = article.urlToImage),
+        Image(
+            painter = rememberAsyncImagePainter(model = article.urlToImage),
             contentDescription = "Image",
             modifier = Modifier
                 .size(150.dp, 150.dp)

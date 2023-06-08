@@ -21,7 +21,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-    //In this way, it can be easily injected into the viewmodel.
+    //In this way, it can be easily injected into the view model.
     @Singleton
     @Provides
     fun provideNewsRepository(

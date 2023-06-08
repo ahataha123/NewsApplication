@@ -24,13 +24,13 @@ fun FirstSplashScreen(navController: NavController){
         delay(4000)
         navController.popBackStack()
         navController.navigate(AuthScreen.Second.route)
+
     }
 
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(top = 60.dp)){
 
-        //For LottieAnimation
        val composition by rememberLottieComposition(spec = LottieCompositionSpec.Url("https://assets4.lottiefiles.com/private_files/lf30_cbizhsdy.json"))
         LottieAnimation(composition = composition, iterations = LottieConstants.IterateForever )
 

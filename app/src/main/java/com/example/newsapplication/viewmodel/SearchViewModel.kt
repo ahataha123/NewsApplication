@@ -24,9 +24,8 @@ class SearchViewModel @Inject constructor(
     fun loadSearchedNews(searchQuery: String){
         viewModelScope.launch {
             isLoading.value= true
-            val result = repository.getSearchNews(searchQuery)
 
-            when(result){
+            when(val result = repository.getSearchNews(searchQuery)){
                 is Resource.Success ->{
                     val searchedNews = result.data!!.body().apply {
                         this!!.articles

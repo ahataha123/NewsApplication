@@ -14,30 +14,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SavedNewsViewModel @Inject constructor(
-    private val repository: NewsRepository
-): ViewModel() {
+    private val repository: NewsRepository): ViewModel() {
 
-    val newsList : LiveData<List<RoomModel>>
-
-    init {
-        newsList =repository.getNews()
-    }
+    val newsList : LiveData<List<RoomModel>> = repository.getNews()
 
 
-        private var insertNewsMsg = MutableLiveData<Resource<RoomModel>>()
-        val insertNewsMessage : LiveData<Resource<RoomModel>>
-        get()=insertNewsMsg
+    private var insertNewsMsg = MutableLiveData<Resource<RoomModel>>()
 
-    fun resetInsertNewsMsg(){
-        insertNewsMsg =MutableLiveData<Resource<RoomModel>>()
-    }
 
     fun deleteNews(news : RoomModel) { viewModelScope.launch{
         repository.deleteNews(news)
         }
     }
 
-    fun insertNews(news: RoomModel){ viewModelScope.launch {
+    private fun insertNews(news: RoomModel){ viewModelScope.launch {
         repository.insertNews(news)
         }
     }

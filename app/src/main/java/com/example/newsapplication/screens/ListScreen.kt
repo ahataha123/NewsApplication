@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -20,7 +19,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberImagePainter
 import com.example.newsapplication.viewmodel.HomeViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.font.FontStyle
@@ -28,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.newsapplication.model.Article
 import com.example.newsapplication.ui.theme.customWhite
 
@@ -35,7 +34,6 @@ import com.example.newsapplication.ui.theme.customWhite
 @Composable
 fun NewsList(navController: NavController, viewModel: HomeViewModel = hiltViewModel()){
     val articleList by remember {viewModel.newsList}
-    val errorMessage by remember {viewModel.errorMessage}
     val isLoading by remember {viewModel.isLoading}
 
 
@@ -45,11 +43,7 @@ fun NewsList(navController: NavController, viewModel: HomeViewModel = hiltViewMo
         if (isLoading){
             CircularProgressIndicator(color = Color.Red)
         }
-        if (errorMessage.isNotEmpty()){
-            RetryView(error = errorMessage) {
-                viewModel.loadNews()
-            }
-        }
+
     }
 }
 
@@ -79,10 +73,11 @@ fun NewsRow(navController: NavController, article : Article){
                 navController.navigate("details_graph/${article.title}")
             }
     ) {
-        Image(painter = rememberImagePainter(data = article.urlToImage),
+        Image(
+            painter = rememberAsyncImagePainter(model = article.urlToImage),
             contentDescription = "Image",
             modifier = Modifier
-                .size(150.dp,150.dp)
+                .size(150.dp, 150.dp)
                 .clip(RectangleShape)
                 .padding(2.dp)
         )
@@ -118,20 +113,8 @@ fun NewsRow(navController: NavController, article : Article){
     Spacer(modifier = Modifier.padding(5.dp))
 }
 
-@Composable
-fun RetryView(error:String, onRetry: () -> Unit){
 
-    Column {
-        Text(error, color = Color.Red, fontSize = 20.sp)
 
-        Button(onClick = {
-            onRetry
-        }, modifier = Modifier.align(Alignment.CenterHorizontally)){
-            Text(text = "Retry")
-        }
-    }
-
-}
 
 
 

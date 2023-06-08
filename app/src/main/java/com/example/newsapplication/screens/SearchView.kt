@@ -22,24 +22,30 @@ import androidx.navigation.NavController
 import com.example.newsapplication.viewmodel.SearchViewModel
 
 @Composable
-fun NewsSearchScreen(navController: NavController,viewModel: SearchViewModel = hiltViewModel()){
+fun NewsSearchScreen(navController: NavController, viewModel: SearchViewModel = hiltViewModel()) {
 
     Surface(modifier = Modifier.fillMaxSize()) {
 
-        Column {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Spacer(modifier = Modifier.height(10.dp))
 
-            SearchBar(hint = "Search news...", modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)){
-                viewModel.loadSearchedNews(it)
-            }
+            SearchBar(
+                hint = "Search news...",
+                modifier = Modifier.padding(16.dp),
+                onSearch = { query ->
+                    viewModel.loadSearchedNews(query)
+                }
+            )
+
             Spacer(modifier = Modifier.height(10.dp))
 
             SearchView(navController = navController)
         }
     }
-
 }
 
 
@@ -67,40 +73,44 @@ fun SearchView (navController: NavController,viewModel: SearchViewModel = hiltVi
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
-    hint : String = "",
-    onSearch : (String) -> Unit = {}
-){
-
+    hint: String = "",
+    onSearch: (String) -> Unit = {}
+) {
     var text by remember { mutableStateOf("") }
     var isHintDisplayed by remember { mutableStateOf(hint != "") }
 
-    Box(modifier = modifier){
-        BasicTextField(value = text,
+    Box(modifier = modifier) {
+        BasicTextField(
+            value = text,
             onValueChange = {
-                if(it.isNotEmpty()){
+                if (it.isNotEmpty()) {
                     text = it
                     onSearch(it)
-                }else{
-                    text=""
-                    println("boş")
+                } else {
+                    text = ""
+                    println("empty")
                 }
-
-            }, maxLines = 1,
+            },
+            maxLines = 1,
             singleLine = true,
             textStyle = TextStyle.Default,
             modifier = Modifier
+                .align(Alignment.Center)
                 .fillMaxWidth()
                 .shadow(7.dp, CircleShape)
                 .background(Color.White, CircleShape)
                 .padding(horizontal = 30.dp, vertical = 15.dp)
                 .onFocusChanged {
                     isHintDisplayed = it.isFocused != true && text.isEmpty()
-                })
+                }
+        )
 
-        if (isHintDisplayed){
-            Text(text = hint,
+        if (isHintDisplayed) {
+            Text(
+                text = hint,
                 color = Color.LightGray,
-                modifier = Modifier.padding(20.dp))
+                modifier = Modifier.padding(20.dp)
+            )
         }
     }
 }

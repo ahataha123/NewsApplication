@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
@@ -25,7 +25,7 @@ import com.example.newsapplication.utilities.Resource
 
 
 @Composable
-fun detailView(content: String,
+fun DetailView(content: String,
                viewModel : OneNewsViewModel = hiltViewModel(),
                saveViewModel: SavedNewsViewModel = hiltViewModel()
                ){
@@ -50,31 +50,34 @@ fun detailView(content: String,
                                     ViewGroup.LayoutParams.MATCH_PARENT
                                 )
                                 webViewClient = WebViewClient()
-                                loadUrl(oneNews.data!!.articles[0].url)
+                                loadUrl(oneNews.data.articles[0].url)
                             }
                         }, update = {
-                            it.loadUrl(oneNews.data!!.articles[0].url)
+                            it.loadUrl(oneNews.data.articles[0].url)
                         })
                         Row(modifier = Modifier
                             .align(Alignment.BottomEnd)
                             .padding(5.dp)) {
                             val context = LocalContext.current
-                            customFloatingButton {
+                            CustomFloatingButton {
                                 Toast.makeText(context,"Successfully saved!",Toast.LENGTH_LONG).show()
-                                val saveNews= oneNews.data!!.articles[0]
-                                saveViewModel.saveNews(saveNews.author ?:"",saveNews.content?:"",saveNews.description?:"",saveNews.publishedAt?:"",saveNews.title?:"",saveNews.url?:"",saveNews.urlToImage?:"")
+                                val saveNews= oneNews.data.articles[0]
+                                saveViewModel.saveNews(saveNews.author,
+                                    saveNews.content,
+                                    saveNews.description,
+                                    saveNews.publishedAt,
+                                    saveNews.title, saveNews.url, saveNews.urlToImage
+                                )
                             }
                         }
 
                     }
                 }
-            }else{
-
             }
         }
         is Resource.Error ->{
             Text(text = oneNews.message!!)
-            println("Boş olan kısım")
+            println("Resource Error")
         }else->{
             println("error")
         }
@@ -82,13 +85,13 @@ fun detailView(content: String,
 }
 
 @Composable
-fun customFloatingButton(onSave : ()-> Unit){
+fun CustomFloatingButton(onSave : ()-> Unit){
 
     FloatingActionButton(onClick = onSave,
         backgroundColor = Teal200,
         contentColor = Teal200
     ) {
-        Icon(Icons.Filled.Add,"Add Button")
+        Icon(Icons.Filled.Favorite,"Add Button")
     }
 }
 
