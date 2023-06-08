@@ -10,9 +10,12 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -85,13 +88,23 @@ fun DetailView(content: String,
 }
 
 @Composable
-fun CustomFloatingButton(onSave : ()-> Unit){
+fun CustomFloatingButton(onSave: () -> Unit) {
+    // Remember whether the button is clicked or not
+    val isClicked = remember { mutableStateOf(false) }
 
-    FloatingActionButton(onClick = onSave,
-        backgroundColor = Teal200,
-        contentColor = Teal200
+    FloatingActionButton(
+        onClick = {
+            isClicked.value = !isClicked.value // Toggle the clicked state
+            onSave()
+        },
+        backgroundColor = if (isClicked.value) Teal200 else Color.White,
+        contentColor = if (isClicked.value) Color.White else Teal200
     ) {
-        Icon(Icons.Filled.Favorite,"Add Button")
+        Icon(
+            Icons.Filled.Favorite,
+            contentDescription = "Add Button",
+            tint = if (isClicked.value) Color.White else Teal200
+        )
     }
 }
 
