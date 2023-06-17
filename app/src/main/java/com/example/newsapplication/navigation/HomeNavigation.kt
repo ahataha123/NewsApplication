@@ -44,10 +44,10 @@ fun HomeNavGraph(navController: NavHostController) {
             }
 
         }
-        detailsNavGraph(navController =navController)
+        detailsNavGraph()
     }
 }
-fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
+fun NavGraphBuilder.detailsNavGraph() {
     navigation(
         route = Graph.DETAILS,
         startDestination = "details_graph/{title}"

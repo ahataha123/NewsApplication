@@ -36,11 +36,11 @@ fun DetailView(content: String,
     val oneNews = produceState<Resource<NewsModel>>(initialValue = Resource.Loading()){
         value = viewModel.getOneNews(content)
     }.value
-
     when(oneNews){
         is Resource.Success ->{
             if (oneNews.data!!.articles.isNotEmpty()){
                 Column(modifier = Modifier.fillMaxSize()) {
+
                     Box(modifier = Modifier
                         .fillMaxSize()
                         .padding(2.dp)){
@@ -53,10 +53,10 @@ fun DetailView(content: String,
                                     ViewGroup.LayoutParams.MATCH_PARENT
                                 )
                                 webViewClient = WebViewClient()
-                                loadUrl(oneNews.data.articles[0].url)
+                                loadUrl(oneNews.data!!.articles[0].url)
                             }
                         }, update = {
-                            it.loadUrl(oneNews.data.articles[0].url)
+                            it.loadUrl(oneNews.data!!.articles[0].url)
                         })
                         Row(modifier = Modifier
                             .align(Alignment.BottomEnd)
@@ -64,26 +64,23 @@ fun DetailView(content: String,
                             val context = LocalContext.current
                             CustomFloatingButton {
                                 Toast.makeText(context,"Successfully saved!",Toast.LENGTH_LONG).show()
-                                val saveNews= oneNews.data.articles[0]
-                                saveViewModel.saveNews(saveNews.author,
-                                    saveNews.content,
-                                    saveNews.description,
-                                    saveNews.publishedAt,
-                                    saveNews.title, saveNews.url, saveNews.urlToImage
-                                )
+                                val saveNews= oneNews.data!!.articles[0]
+                                saveViewModel.saveNews(saveNews.author ?:"",saveNews.content?:"",saveNews.description?:"",saveNews.publishedAt?:"",saveNews.title?:"",saveNews.url?:"",saveNews.urlToImage?:"")
                             }
                         }
 
                     }
                 }
+            }else{
+
             }
         }
         is Resource.Error ->{
             Text(text = oneNews.message!!)
             println("Resource Error")
         }else->{
-            println("error")
-        }
+        println("error")
+    }
     }
 }
 
