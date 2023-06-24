@@ -9,10 +9,7 @@ import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.newsapplication.AppNameText
-import com.example.newsapplication.screens.NewsList
-import com.example.newsapplication.screens.NewsSearchScreen
-import com.example.newsapplication.screens.DetailView
-import com.example.newsapplication.screens.savedNewsView
+import com.example.newsapplication.screens.*
 
 @Composable
 fun HomeNavGraph(navController: NavHostController) {
@@ -24,7 +21,9 @@ fun HomeNavGraph(navController: NavHostController) {
         composable(route = BottomBarNavigation.Home.route) {
             Column(modifier = Modifier.fillMaxSize()){
                 AppNameText()
+                SwipeRefreshCompose(navController = navController)
                 NewsList(navController = navController)
+
             }
 
 
@@ -47,6 +46,7 @@ fun HomeNavGraph(navController: NavHostController) {
         detailsNavGraph()
     }
 }
+
 fun NavGraphBuilder.detailsNavGraph() {
     navigation(
         route = Graph.DETAILS,
@@ -55,6 +55,7 @@ fun NavGraphBuilder.detailsNavGraph() {
         composable(route = "details_graph/{title}", arguments = listOf(
             navArgument("title"){
                 type = NavType.StringType
+
             }
         )){
 

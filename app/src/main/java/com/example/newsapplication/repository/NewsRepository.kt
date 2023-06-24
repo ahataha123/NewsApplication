@@ -30,6 +30,18 @@ class NewsRepository @Inject constructor(
         return Resource.Success(response)
     }
 
+    suspend fun getNewsRefreshList(currentPage: Int, pageSize: Int): Resource<Response<NewsModel>> {
+        val nextPage = currentPage + 1 // Calculate the next page number to fetch
+
+        val response = try {
+            api.getAllNews("us", nextPage, API_KEY) // Fetch the next page of news
+        } catch (e: Exception) {
+            return Resource.Error("NewsRepository-getNewsRefreshList doesn't work.")
+        }
+
+        return Resource.Success(response)
+    }
+
     suspend fun getSearchNews(searchText : String): Resource<Response<NewsModel>>{
 
         val response = try {

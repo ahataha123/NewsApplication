@@ -16,30 +16,31 @@ class HomeViewModel @Inject constructor(
     private val repository : NewsRepository
 ) : ViewModel() {
 
-        var newsList = mutableStateOf<List<Article>>(listOf())
-        private var errorMessage = mutableStateOf("")
-        var isLoading = mutableStateOf(false)
+    var newsList = mutableStateOf<List<Article>>(listOf())
+    private var errorMessage = mutableStateOf("")
+    var isLoading = mutableStateOf(false)
 
     init {
         loadNews()
     }
-    private fun loadNews(){
+
+    private fun loadNews() {
         viewModelScope.launch {
             isLoading.value = true
-            when(val result = repository.getNewsList()){
+            when (val result = repository.getNewsList()) {
                 is Resource.Success -> {
 
                     val news = result.data!!.body().apply {
                         this!!.articles
                     }
-                    errorMessage.value=""
-                    isLoading.value=false
+                    errorMessage.value = ""
+                    isLoading.value = false
                     newsList.value = news!!.articles
 
                 }
                 is Resource.Error -> {
-                    errorMessage.value= result.message!!
-                    isLoading.value=false
+                    errorMessage.value = result.message!!
+                    isLoading.value = false
                 }
 
                 else -> {
@@ -51,4 +52,31 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    fun refreshNews() {
+        viewModelScope.launch {
+            isLoading.value = true
+            val refreshedPage = 1 // Start with the first page for refreshing
+            var currentPage = 1 // Current page number
+            val pageSize = 20 // Number of items per page
+
+            when (val result = repository.getNewsRefreshList(refreshedPage, pageSize)) {
+                is Resource.Success -> {
+                    val news = result.data!!.body().apply {
+                        this!!.articles
+                    }
+                    errorMessage.value = ""
+                    isLoading.value = false
+                    newsList.value = news!!.articles.shuffled() // Shuffle the news articles
+                    currentPage = refreshedPage // Update the current page value
+                }
+                is Resource.Error -> {
+                    errorMessage.value = result.message!!
+                    isLoading.value = false
+                }
+                else -> {
+                    println("Error refreshing News")
+                }
+            }
+        }
+    }
 }

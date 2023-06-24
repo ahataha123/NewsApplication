@@ -9,8 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,7 +19,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.newsapplication.viewmodel.HomeViewModel
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -29,6 +27,9 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.newsapplication.model.Article
 import com.example.newsapplication.ui.theme.customWhite
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -111,6 +112,29 @@ fun NewsRow(navController: NavController, article : Article){
         }
     }
     Spacer(modifier = Modifier.padding(5.dp))
+}
+
+@Composable
+fun SwipeRefreshCompose(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {
+    val articleList by remember { viewModel.newsList }
+    var refreshing by remember { mutableStateOf(false) }
+    val isLoading by remember {viewModel.isLoading}
+
+    LaunchedEffect(refreshing) {
+        if (refreshing) {
+            delay(25000)
+            refreshing = false
+        }
+    }
+
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing = refreshing),
+        onRefresh = { viewModel.refreshNews() }
+
+    ) {
+        NewsListView(articles = articleList, navController = navController)
+
+    }
 }
 
 

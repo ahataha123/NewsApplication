@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.newsapplication.AppNameText
 import com.example.newsapplication.viewmodel.OneNewsViewModel
 import com.example.newsapplication.viewmodel.SavedNewsViewModel
 import com.example.newsapplication.model.NewsModel
@@ -32,7 +33,6 @@ fun DetailView(content: String,
                viewModel : OneNewsViewModel = hiltViewModel(),
                saveViewModel: SavedNewsViewModel = hiltViewModel()
                ){
-
     val oneNews = produceState<Resource<NewsModel>>(initialValue = Resource.Loading()){
         value = viewModel.getOneNews(content)
     }.value
