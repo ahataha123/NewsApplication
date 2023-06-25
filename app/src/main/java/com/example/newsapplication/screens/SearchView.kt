@@ -22,7 +22,9 @@ import androidx.navigation.NavController
 import com.example.newsapplication.viewmodel.SearchViewModel
 
 @Composable
-fun NewsSearchScreen(navController: NavController, viewModel: SearchViewModel = hiltViewModel()) {
+fun NewsSearchScreen(navController: NavController, viewModel: SearchViewModel = hiltViewModel(),
+                     isDarkMode: Boolean,
+                     onToggleDarkMode: (Boolean) -> Unit) {
 
     Surface(modifier = Modifier.fillMaxSize()) {
 
@@ -43,7 +45,9 @@ fun NewsSearchScreen(navController: NavController, viewModel: SearchViewModel = 
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            SearchView(navController = navController)
+            SearchView(navController = navController,
+                isDarkMode = isDarkMode,
+                onToggleDarkMode = onToggleDarkMode)
         }
     }
 }
@@ -51,18 +55,28 @@ fun NewsSearchScreen(navController: NavController, viewModel: SearchViewModel = 
 
 
 @Composable
-fun SearchView (navController: NavController,viewModel: SearchViewModel = hiltViewModel()) {
+fun SearchView(
+    navController: NavController,
+    viewModel: SearchViewModel = hiltViewModel(),
+    isDarkMode: Boolean,
+    onToggleDarkMode: (Boolean) -> Unit
+) {
     val searchedNewsList by remember { viewModel.searchedNewsList }
-    val errorMessage by remember {viewModel.errorMessage }
-    val isLoading by remember {viewModel.isLoading}
+    val errorMessage by remember { viewModel.errorMessage }
+    val isLoading by remember { viewModel.isLoading }
 
-    NewsListView(articles = searchedNewsList, navController = navController)
+    NewsListView(
+        articles = searchedNewsList,
+        navController = navController,
+        isDarkMode = isDarkMode,
+        onToggleDarkMode = onToggleDarkMode
+    )
 
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-        if(isLoading){
+        if (isLoading) {
             CircularProgressIndicator(color = Color.Red)
         }
-        if (errorMessage.isNotEmpty()){
+        if (errorMessage.isNotEmpty()) {
             println(errorMessage)
         }
     }

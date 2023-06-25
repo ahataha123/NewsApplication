@@ -51,8 +51,7 @@ android {
         }
     }
 }
-def retrofitVersion = '2.9.0'
-def rxJavaVersion = '2.1.1'
+
 dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
 
@@ -102,4 +101,7 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation 'com.google.accompanist:accompanist-swiperefresh:0.24.13-rc'
 
+    //for dark and night mode
+    def material3_version = "1.0.1"
+    implementation "androidx.compose.material3:material3:$material3_version"
 }

@@ -19,6 +19,8 @@ class HomeViewModel @Inject constructor(
     var newsList = mutableStateOf<List<Article>>(listOf())
     private var errorMessage = mutableStateOf("")
     var isLoading = mutableStateOf(false)
+    private var currentPage = 1 // Current page value for pagination
+    private val pageSize = 20 // Number of items per page
 
     init {
         loadNews()
@@ -55,9 +57,8 @@ class HomeViewModel @Inject constructor(
     fun refreshNews() {
         viewModelScope.launch {
             isLoading.value = true
+
             val refreshedPage = 1 // Start with the first page for refreshing
-            var currentPage = 1 // Current page number
-            val pageSize = 20 // Number of items per page
 
             when (val result = repository.getNewsRefreshList(refreshedPage, pageSize)) {
                 is Resource.Success -> {
@@ -66,7 +67,7 @@ class HomeViewModel @Inject constructor(
                     }
                     errorMessage.value = ""
                     isLoading.value = false
-                    newsList.value = news!!.articles.shuffled() // Shuffle the news articles
+                    newsList.value = news!!.articles.shuffled() // Shuffle the articles randomly
                     currentPage = refreshedPage // Update the current page value
                 }
                 is Resource.Error -> {
@@ -80,3 +81,5 @@ class HomeViewModel @Inject constructor(
         }
     }
 }
+
+

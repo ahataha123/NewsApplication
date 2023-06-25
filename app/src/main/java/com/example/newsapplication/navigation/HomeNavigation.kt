@@ -2,8 +2,7 @@ package com.example.newsapplication.navigation
 
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
@@ -13,6 +12,7 @@ import com.example.newsapplication.screens.*
 
 @Composable
 fun HomeNavGraph(navController: NavHostController) {
+    var isDarkMode by remember { mutableStateOf(false) }
     NavHost(
         navController = navController,
         route = Graph.HOME,
@@ -20,9 +20,12 @@ fun HomeNavGraph(navController: NavHostController) {
     ) {
         composable(route = BottomBarNavigation.Home.route) {
             Column(modifier = Modifier.fillMaxSize()){
-                AppNameText()
-                SwipeRefreshCompose(navController = navController)
-                NewsList(navController = navController)
+                AppNameText(isDarkMode = isDarkMode,
+                    onToggleDarkMode = { isDarkMode = it })
+                SwipeRefreshCompose(navController = navController,isDarkMode = isDarkMode,
+                    onToggleDarkMode = { isDarkMode = it })
+                NewsList(navController = navController,isDarkMode = isDarkMode,
+                    onToggleDarkMode = { isDarkMode = it })
 
             }
 
@@ -30,16 +33,19 @@ fun HomeNavGraph(navController: NavHostController) {
         }
         composable(route = BottomBarNavigation.SEARCH.route) {
             Column(modifier = Modifier.fillMaxSize()){
-                AppNameText()
-                NewsSearchScreen(navController = navController)
+                AppNameText(isDarkMode = isDarkMode,
+                    onToggleDarkMode = { isDarkMode = it })
+                NewsSearchScreen(navController = navController,isDarkMode = isDarkMode,
+                    onToggleDarkMode = { isDarkMode = it })
             }
 
 
         }
         composable(route = BottomBarNavigation.SAVE.route) {
             Column(modifier = Modifier.fillMaxSize()){
-                AppNameText()
-                savedNewsView(navController = navController)
+                AppNameText(isDarkMode = isDarkMode,
+                    onToggleDarkMode = { isDarkMode = it })
+                SavedNewsView(navController = navController)
             }
 
         }
@@ -75,7 +81,4 @@ fun NavGraphBuilder.detailsNavGraph() {
 }
 
 
-sealed class HomeScreen(val route: String){
-    object Home : HomeScreen(route = "HOME")
 
-}
