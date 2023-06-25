@@ -60,7 +60,7 @@ class HomeViewModel @Inject constructor(
 
             val refreshedPage = 1 // Start with the first page for refreshing
 
-            when (val result = repository.getNewsRefreshList(refreshedPage, pageSize)) {
+            when (val result = repository.getNewsRefreshList(refreshedPage)) {
                 is Resource.Success -> {
                     val news = result.data!!.body().apply {
                         this!!.articles

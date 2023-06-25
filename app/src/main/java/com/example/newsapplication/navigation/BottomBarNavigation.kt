@@ -9,21 +9,21 @@ sealed class BottomBarNavigation(
     val title: String,
     val icon: ImageVector
 ) {
-    object Home : BottomBarNavigation(
+    object HOME : BottomBarNavigation(
         route = "HOME",
-        title = "HOME",
+        title = "Home",
         icon = Icons.Default.Home
     )
 
     object SEARCH : BottomBarNavigation(
         route = "SEARCH",
-        title = "SEARCH",
+        title = "Search",
         icon = Icons.Default.Search
     )
 
     object SAVE : BottomBarNavigation(
         route = "SAVE",
-        title = "SAVE",
-        icon = Icons.Default.ShoppingCart
+        title = "Favourites",
+        icon = Icons.Default.Favorite
     )
 }

@@ -56,7 +56,7 @@ object AppModule {
     @Provides
     fun injectRoomDatabase(
         @ApplicationContext context: Context)= Room.databaseBuilder(
-        context, NewsDatabase::class.java,"newsdb"
+        context, NewsDatabase::class.java,"news-db"
         ).build()
 
    @Singleton

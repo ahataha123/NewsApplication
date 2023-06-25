@@ -153,7 +153,7 @@ fun NewsRow(navController: NavController, article : Article,
 }
 
 @Composable
-fun SwipeRefreshCompose(
+fun SwipeRefresh(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
     isDarkMode: Boolean,

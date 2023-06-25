@@ -3,7 +3,6 @@ package com.example.newsapplication.repository
 import androidx.lifecycle.LiveData
 import com.example.newsapplication.api.NewsAPI
 import com.example.newsapplication.db.NewsDao
-import com.example.newsapplication.model.Article
 import com.example.newsapplication.model.NewsModel
 import com.example.newsapplication.model.RoomModel
 import com.example.newsapplication.utilities.Constants.Companion.API_KEY
@@ -30,7 +29,7 @@ class NewsRepository @Inject constructor(
         return Resource.Success(response)
     }
 
-    suspend fun getNewsRefreshList(currentPage: Int, pageSize: Int): Resource<Response<NewsModel>> {
+    suspend fun getNewsRefreshList(currentPage: Int): Resource<Response<NewsModel>> {
         val nextPage = currentPage + 1 // Calculate the next page number to fetch
 
         val response = try {

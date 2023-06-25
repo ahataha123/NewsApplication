@@ -2,7 +2,6 @@ package com.example.newsapplication.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
@@ -37,13 +36,12 @@ fun NewsSearchScreen(navController: NavController, viewModel: SearchViewModel = 
             Spacer(modifier = Modifier.height(10.dp))
 
             SearchBar(
-                hint = "Search news...",
                 modifier = Modifier.padding(16.dp),
+                hint = "Search news...",
                 onSearch = { query ->
                     viewModel.loadSearchedNews(query)
                 },
-                isDarkMode = isDarkMode,
-                onToggleDarkMode = onToggleDarkMode
+                isDarkMode = isDarkMode
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -92,8 +90,7 @@ fun SearchBar(
     modifier: Modifier = Modifier,
     hint: String = "",
     onSearch: (String) -> Unit = {},
-    isDarkMode: Boolean,
-    onToggleDarkMode: (Boolean) -> Unit
+    isDarkMode: Boolean
 ) {
     var text by remember { mutableStateOf("") }
     var isHintDisplayed by remember { mutableStateOf(hint != "") }

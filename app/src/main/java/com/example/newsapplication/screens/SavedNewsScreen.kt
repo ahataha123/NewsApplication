@@ -29,19 +29,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-
 import com.example.newsapplication.model.RoomModel
-import com.example.newsapplication.ui.theme.customWhite
 import java.util.*
 
 
 @Composable
-fun SavedNewsView(navController: NavController, viewModel: SavedNewsViewModel = hiltViewModel(),
-                  isDarkMode: Boolean,
-                  onToggleDarkMode: (Boolean) -> Unit){
+fun SavedNewsView(
+    navController: NavController, viewModel: SavedNewsViewModel = hiltViewModel(),
+    isDarkMode: Boolean
+){
 
    val savedNewsList = viewModel.newsList.observeAsState(listOf()).value
-    val backgroundColor = if (isDarkMode) Color.Black else Color.White
     val textColor = if (isDarkMode) Color.White else Color.Black
     if (savedNewsList.isNotEmpty()){
         SavedNewsListView(articles = savedNewsList, navController = navController,viewModel)
@@ -158,7 +156,7 @@ fun SavedNewsRow(navController: NavController, article : RoomModel){
                 textAlign = TextAlign.End)
         }
     }
-    Spacer(modifier = Modifier.padding(2.dp)
+    Spacer(modifier = Modifier.padding(1.dp)
         .background(backgroundColor))
 }
 

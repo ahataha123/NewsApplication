@@ -29,7 +29,7 @@ fun HomeScreen(navController: NavHostController = rememberNavController()){
 @Composable
 fun BottomBar (navController: NavHostController){
     val screens = listOf(
-        BottomBarNavigation.Home,
+        BottomBarNavigation.HOME,
         BottomBarNavigation.SEARCH,
         BottomBarNavigation.SAVE,
     )

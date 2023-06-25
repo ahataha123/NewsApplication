@@ -16,13 +16,13 @@ fun HomeNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         route = Graph.HOME,
-        startDestination = BottomBarNavigation.Home.route
+        startDestination = BottomBarNavigation.HOME.route
     ) {
-        composable(route = BottomBarNavigation.Home.route) {
+        composable(route = BottomBarNavigation.HOME.route) {
             Column(modifier = Modifier.fillMaxSize()){
                 AppNameText(isDarkMode = isDarkMode,
                     onToggleDarkMode = { isDarkMode = it })
-                SwipeRefreshCompose(navController = navController,isDarkMode = isDarkMode,
+                SwipeRefresh(navController = navController,isDarkMode = isDarkMode,
                     onToggleDarkMode = { isDarkMode = it })
                 NewsList(navController = navController,isDarkMode = isDarkMode,
                     onToggleDarkMode = { isDarkMode = it })
@@ -45,8 +45,7 @@ fun HomeNavGraph(navController: NavHostController) {
             Column(modifier = Modifier.fillMaxSize()){
                 AppNameText(isDarkMode = isDarkMode,
                     onToggleDarkMode = { isDarkMode = it })
-                SavedNewsView(navController = navController,isDarkMode = isDarkMode,
-                    onToggleDarkMode = { isDarkMode = it })
+                SavedNewsView(navController = navController, isDarkMode = isDarkMode)
             }
 
         }
