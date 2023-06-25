@@ -45,7 +45,8 @@ fun HomeNavGraph(navController: NavHostController) {
             Column(modifier = Modifier.fillMaxSize()){
                 AppNameText(isDarkMode = isDarkMode,
                     onToggleDarkMode = { isDarkMode = it })
-                SavedNewsView(navController = navController)
+                SavedNewsView(navController = navController,isDarkMode = isDarkMode,
+                    onToggleDarkMode = { isDarkMode = it })
             }
 
         }

@@ -25,11 +25,12 @@ import com.example.newsapplication.viewmodel.SearchViewModel
 fun NewsSearchScreen(navController: NavController, viewModel: SearchViewModel = hiltViewModel(),
                      isDarkMode: Boolean,
                      onToggleDarkMode: (Boolean) -> Unit) {
-
+    val backgroundColor = if (isDarkMode) Color.Black else Color.White
     Surface(modifier = Modifier.fillMaxSize()) {
 
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .background(backgroundColor),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -40,7 +41,9 @@ fun NewsSearchScreen(navController: NavController, viewModel: SearchViewModel = 
                 modifier = Modifier.padding(16.dp),
                 onSearch = { query ->
                     viewModel.loadSearchedNews(query)
-                }
+                },
+                isDarkMode = isDarkMode,
+                onToggleDarkMode = onToggleDarkMode
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -88,12 +91,16 @@ fun SearchView(
 fun SearchBar(
     modifier: Modifier = Modifier,
     hint: String = "",
-    onSearch: (String) -> Unit = {}
+    onSearch: (String) -> Unit = {},
+    isDarkMode: Boolean,
+    onToggleDarkMode: (Boolean) -> Unit
 ) {
     var text by remember { mutableStateOf("") }
     var isHintDisplayed by remember { mutableStateOf(hint != "") }
-
-    Box(modifier = modifier) {
+    val backgroundColor = if (isDarkMode) Color.White else Color.White
+    val textColor = if (isDarkMode) Color.Black else Color.White
+    Box(modifier = modifier
+        .background(backgroundColor)) {
         BasicTextField(
             value = text,
             onValueChange = {
@@ -111,8 +118,8 @@ fun SearchBar(
             modifier = Modifier
                 .align(Alignment.Center)
                 .fillMaxWidth()
-                .shadow(7.dp, CircleShape)
-                .background(Color.White, CircleShape)
+                .shadow(7.dp)
+                .background(backgroundColor)
                 .padding(horizontal = 30.dp, vertical = 15.dp)
                 .onFocusChanged {
                     isHintDisplayed = it.isFocused != true && text.isEmpty()
@@ -122,7 +129,7 @@ fun SearchBar(
         if (isHintDisplayed) {
             Text(
                 text = hint,
-                color = Color.LightGray,
+                color = textColor,
                 modifier = Modifier.padding(20.dp)
             )
         }

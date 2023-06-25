@@ -10,7 +10,10 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -33,10 +36,13 @@ import java.util.*
 
 
 @Composable
-fun SavedNewsView(navController: NavController, viewModel: SavedNewsViewModel = hiltViewModel()){
+fun SavedNewsView(navController: NavController, viewModel: SavedNewsViewModel = hiltViewModel(),
+                  isDarkMode: Boolean,
+                  onToggleDarkMode: (Boolean) -> Unit){
 
    val savedNewsList = viewModel.newsList.observeAsState(listOf()).value
-
+    val backgroundColor = if (isDarkMode) Color.Black else Color.White
+    val textColor = if (isDarkMode) Color.White else Color.Black
     if (savedNewsList.isNotEmpty()){
         SavedNewsListView(articles = savedNewsList, navController = navController,viewModel)
     }else{
@@ -45,7 +51,7 @@ fun SavedNewsView(navController: NavController, viewModel: SavedNewsViewModel = 
                 horizontalAlignment = Alignment.CenterHorizontally
              ) {
              Text(text = "No Saved Articles",
-
+                 color = textColor,
              fontSize = 13.sp,
              textAlign = TextAlign.Center)
          }
@@ -99,11 +105,14 @@ fun SavedNewsListView(articles:List<RoomModel>, navController: NavController, vi
 
 @Composable
 fun SavedNewsRow(navController: NavController, article : RoomModel){
+    val isDarkMode by remember { mutableStateOf(false)}
+    val backgroundColor = if (isDarkMode) Color.Black else Color.White
+    val textColor = if (isDarkMode) Color.White else Color.Black
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(45f)
-            .background(color = customWhite)
+            .background(backgroundColor)
             .padding(7.dp)
             .clickable {
                 navController.navigate("details_graph/${article.title}")
@@ -120,6 +129,7 @@ fun SavedNewsRow(navController: NavController, article : RoomModel){
         Column {
             Text(text = article.title,
                 style = MaterialTheme.typography.h4,
+                color = textColor,
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(9f),
@@ -128,6 +138,7 @@ fun SavedNewsRow(navController: NavController, article : RoomModel){
 
             Text(text = article.content,
                 style = MaterialTheme.typography.h5,
+                color = textColor,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(2.dp),
@@ -138,6 +149,7 @@ fun SavedNewsRow(navController: NavController, article : RoomModel){
 
             Text(text = article.author,
                 style = MaterialTheme.typography.h6,
+                color = textColor,
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(30f),
@@ -146,7 +158,8 @@ fun SavedNewsRow(navController: NavController, article : RoomModel){
                 textAlign = TextAlign.End)
         }
     }
-    Spacer(modifier = Modifier.padding(5.dp))
+    Spacer(modifier = Modifier.padding(2.dp)
+        .background(backgroundColor))
 }
 
 
