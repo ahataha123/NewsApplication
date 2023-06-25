@@ -98,7 +98,7 @@ fun SearchBar(
     var text by remember { mutableStateOf("") }
     var isHintDisplayed by remember { mutableStateOf(hint != "") }
     val backgroundColor = if (isDarkMode) Color.White else Color.White
-    val textColor = if (isDarkMode) Color.Black else Color.White
+    val textColor = if (isDarkMode) Color.Black else Color.Black
     Box(modifier = modifier
         .background(backgroundColor)) {
         BasicTextField(
