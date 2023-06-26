@@ -44,7 +44,6 @@ fun DetailView(content: String,
                     Box(modifier = Modifier
                         .fillMaxSize()
                         .padding(2.dp)){
-
                         //For we can see website in app directly
                         AndroidView(factory = {
                             WebView(it).apply {

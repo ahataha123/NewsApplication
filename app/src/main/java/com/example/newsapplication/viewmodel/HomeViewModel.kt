@@ -20,7 +20,7 @@ class HomeViewModel @Inject constructor(
     private var errorMessage = mutableStateOf("")
     var isLoading = mutableStateOf(false)
     private var currentPage = 1 // Current page value for pagination
-    private val pageSize = 20 // Number of items per page
+
 
     init {
         loadNews()
